@@ -1,0 +1,5 @@
+export const ActionTypes = {
+  SET_DATING_DAY_TIME: "SET_DATING_DAY_TIME",
+  SET_THEME: "SET_THEME",
+  SET_LOCATION: "SET_LOCATION",
+};
