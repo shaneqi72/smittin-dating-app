@@ -63,9 +63,9 @@ const ConfirmDetailsPage = () => {
             </Typography>
           </div>
           <div>
-            {confirmSection.map((eachSection) => {
+            {confirmSection.map((eachSection, index) => {
               return (
-                <Paper elevation="0" className={classes.paper}>
+                <Paper elevation="0" className={classes.paper} key={index}>
                   <div className={classes.confirmSectionBar}>
                     <Typography className={classes.title}>
                       {eachSection.title}
