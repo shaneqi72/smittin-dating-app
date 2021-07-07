@@ -1,106 +1,93 @@
-import React from "react";
+import React, { useState } from "react";
 import RestaurantDrawer from "../components/drawers/RestaurantDrawer";
+import Topbar from "../components/topbar/Topbar";
 import InfoDrawer from "../components/drawers/InfoDrawer";
-// import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-// import clsx from "clsx";
-// import { Sring } from "react-spring";
-
-// import {
-//   Container,
-//   Typography,
-//   FormControl,
-//   InputLabel,
-//   FilledInput,
-//   Paper,
-//   Button,
-//   TextField,
-// } from "@material-ui/core";
+import { TextField, List, SwipeableDrawer } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Map from "../assets/photos/Fortitude-Valley-to-NFC.jpeg";
 
 const MapPage = () => {
-  // const [state, setState] = useState({
-  //   top: false,
-  //   bottom: false,
-  // });
+  const [state, setState] = useState(false);
 
-  // const classes = useStyles();
+  const classes = useStyles();
+  const toggleDrawer = (state) => (event) => {
+    setState(!state);
+  };
 
-  // const toggleDrawer = (anchor, open) => (event) => {
-  //   if (
-  //     event &&
-  //     event.type === "keydown" &&
-  //     (event.key === "Tab" || event.key === "Shift")
-  //   ) {
-  //     return;
-  //   }
-
-  //   setState({ ...state, [anchor]: open });
-  // };
-
-  // const list = (anchor) => (
-  //   <div
-  //     className={clsx(classes.list, {
-  //       [classes.fullList]: anchor === "top" || anchor === "bottom",
-  //     })}
-  //     role="presentation"
-  //     onClick={toggleDrawer(anchor, false)}
-  //     onKeyDown={toggleDrawer(anchor, false)}
-  //   >
-  //   </div>
-  // );
-
-  // {
-  //   /* {["top", "bottom"].map((anchor) => (
-  //       <div key={anchor}>
-  //         <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-  //         <SwipeableDrawer
-  //           anchor={anchor}
-  //           open={state[anchor]}
-  //           onClose={toggleDrawer(anchor, false)}
-  //           onOpen={toggleDrawer(anchor, true)}
-  //         >
-  //           {list(anchor)}
-  //         </SwipeableDrawer>
-  //       </div>
-  //     ))} */
-  // }
-
-  // {
-  //   /* {
-  //       <div>
-  //         <Button onClick={toggleDrawer("bottom", true)}>
-  //           <h1>click me</h1>
-  //         </Button>
-  //         <SwipeableDrawer
-  //           anchor="bottom"
-  //           open="bottom"
-  //           onClose={toggleDrawer("bottom", false)}
-  //           onOpen={toggleDrawer("bottom", true)}
-  //         >
-  //           {list("bottom")}
-  //         </SwipeableDrawer>
-  //       </div>
-  //     } */
-  // }
-
-  // {
-  //   /* <div>
-  //       <InfoDrawer />
-  //     </div>
-  //     <div>
-  //       <RestaurantDrawer />
-  //     </div> */
-  // }
+  const infoDrawers = () => {
+    return (
+      <div>
+        <List>
+          <InfoDrawer />
+        </List>
+      </div>
+    );
+  };
+  const restaurantDrawers = () => {
+    return (
+      <div>
+        <List>
+          <RestaurantDrawer />
+        </List>
+      </div>
+    );
+  };
 
   return (
-    <div>
-      <div>
-        <InfoDrawer />
+    <div className={classes.backgroundStyle}>
+      <div
+        onClick={toggleDrawer(state)}
+        style={{ zIndex: 2, backgroundColor: "white", marginBottom: "2px" }}
+      >
+        <Topbar />
       </div>
-      <div>
-        <RestaurantDrawer />
+      <div style={{ zIndex: 2, backgroundColor: "white" }}>
+        <TextField
+          className={classes.textField}
+          fullWidth
+          label="Search Location"
+          defaultValue="Ribs near me..."
+          variant="outlined"
+          onClick={toggleDrawer(state)}
+        />
       </div>
+      <SwipeableDrawer
+        BackdropProps={{ invisible: true }}
+        anchor={"top"}
+        open={state}
+        onClose={toggleDrawer(state)}
+      >
+        {infoDrawers()}
+      </SwipeableDrawer>
+      <SwipeableDrawer
+        BackdropProps={{ invisible: true }}
+        anchor={"bottom"}
+        open={state}
+        onClose={toggleDrawer(state)}
+      >
+        {restaurantDrawers()}
+      </SwipeableDrawer>
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  textField: {
+    width: "80%",
+    position: "absolute",
+    bottom: "4%",
+    left: "10%",
+    zIndex: 2,
+  },
+  backgroundStyle: {
+    width: "100%",
+    height: "800px",
+    backgroundImage: `url(${Map})`,
+    backgroundSize: "fill",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    zIndex: 1,
+  },
+}));
 
 export default MapPage;
