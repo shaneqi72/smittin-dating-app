@@ -5,6 +5,7 @@ const initialState = {
   time: "",
   theme: "",
   location: "",
+  chooseLocation: false,
 };
 
 export const datingInfoReducer = (state = initialState, action) => {
@@ -15,6 +16,8 @@ export const datingInfoReducer = (state = initialState, action) => {
       return { ...state, theme: action.payload };
     case ActionTypes.SET_LOCATION:
       return { ...state, location: action.payload };
+    case ActionTypes.SET_INPUT_LOCATION:
+      return { ...state, chooseLocation: action.payload };
     default:
       return state;
   }
