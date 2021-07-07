@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Container, Typography, Paper } from "@material-ui/core";
+import { Container, Typography, Paper, Button } from "@material-ui/core";
 import Topbar from "../components/topbar/Topbar";
 import { makeStyles } from "@material-ui/core/styles";
 import CreateIcon from "@material-ui/icons/Create";
@@ -86,7 +86,12 @@ const ConfirmDetailsPage = () => {
         </div>
         <div>
           <div>
-            <Paper elevation="0" className={classes.slideBar}>
+            <Paper
+              // style={{ backgroundColor: "transparent" }}
+
+              variant="contained"
+              className={classes.slideBar}
+            >
               <ExitToAppIcon fontSize="large" className={classes.slideIcon} />
             </Paper>
           </div>
@@ -144,12 +149,14 @@ const useStyles = makeStyles((theme) => ({
   slideBar: {
     border: "1px solid lightgrey",
     borderRadius: 30,
-    width: "90vw",
+    width: "100%",
     marginBottom: 150,
     marginTop: 100,
+    textAlign: "center",
     backgroundColor: theme.palette.primary.main,
     cursor: "pointer",
   },
+
   slideIcon: {
     fontSize: 60,
     color: "white",
