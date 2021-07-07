@@ -23,3 +23,10 @@ export const setLoaction = (seletedLocation) => {
     payload: seletedLocation,
   };
 };
+
+export const setSearchFiled = (clickSearchFiled) => {
+  return {
+    type: ActionTypes.SET_LOCATION,
+    payload: clickSearchFiled,
+  };
+};
