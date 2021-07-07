@@ -16,30 +16,34 @@ const InfoDrawer = () => {
   };
 
   return (
-    <Container>
-      <div>
-        <TopBar />
-      </div>
-      <div className={classes.replayIcon}>
-        <ReplayIcon fontSize="large" onClick={handleReplay} />
-      </div>
-      <div>
-        <Typography variant="h4" className={classes.question}>
-          Let's meet up on <br></br>
-          <span
-            className={classes.spanColor}
-          >{`${selectedOption.day} 0${selectedOption.time}`}</span>
-          , and go to{" "}
-          <span className={classes.spanColor}>{`${selectedOption.theme}`}</span>{" "}
-          at the <span className={classes.spanColor}>_____</span>
-        </Typography>
-      </div>
-      <div>
-        <Typography paragraph="true">
-          Select a pre-filled data idea or suggest your own idea.
-        </Typography>
-      </div>
-    </Container>
+    <div className={classes.window}>
+      <Container>
+        <div>
+          <TopBar />
+        </div>
+        <div className={classes.replayIcon}>
+          <ReplayIcon fontSize="large" onClick={handleReplay} />
+        </div>
+        <div>
+          <Typography variant="h4" className={classes.question}>
+            Let's meet up on <br></br>
+            <span
+              className={classes.spanColor}
+            >{`${selectedOption.day} 0${selectedOption.time}`}</span>
+            , and go to{" "}
+            <span
+              className={classes.spanColor}
+            >{`${selectedOption.theme}`}</span>{" "}
+            at the <span className={classes.spanColor}>_____</span>
+          </Typography>
+        </div>
+        <div>
+          <Typography paragraph="true">
+            Select a pre-filled data idea or suggest your own idea.
+          </Typography>
+        </div>
+      </Container>
+    </div>
   );
 };
 
@@ -47,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
   question: {
     fontWeight: "bold",
     marginBottom: 10,
+
     textAlign: "start",
   },
   replayIcon: {
@@ -57,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
   },
   spanColor: {
     color: theme.palette.primary.main,
+  },
+  window: {
+    maxHeight: "330px",
+    overflow: "auto",
   },
 }));
 
