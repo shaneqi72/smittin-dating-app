@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { RESTAURANTS } from "../../db/database";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoaction } from "../../store/actions/actions";
+import { setLoaction, setSearchFiled } from "../../store/actions/actions";
 import { useHistory } from "react-router-dom";
-import { Spring } from "react-spring";
 
 import {
   Container,
@@ -26,6 +25,9 @@ const RestaurantDrawer = () => {
     dispatch(setLoaction(seletedLocation));
     setTimeout(() => history.push("/confirm-detail"), 1000);
   };
+  const isClickedSearchField = useSelector(
+    (state) => state.datingInfoReducer.chooseLocation
+  );
   const selectedOption = useSelector((state) => state.datingInfoReducer);
   const classes = useStyles();
   const [locationInput, setLocationInput] = useState("Ribs near me...");
@@ -33,84 +35,80 @@ const RestaurantDrawer = () => {
     setLocationInput(e.target.value);
   };
 
+  const toggleLocationChoices = () => {
+    dispatch(setSearchFiled(!isClickedSearchField));
+  };
+
   return (
-    <Spring
-      from={{ opacity: 0, marginTop: -1000 }}
-      to={{ opacity: 1, marginTop: 50 }}
-    >
-      {(props) => (
-        <div style={props}>
-          <Container>
-            <div className={classes.form}>
-              <form noValidate autoComplete="off">
-                <FormControl variant="filled" fullWidth>
-                  <InputLabel
-                    htmlFor="component-filled"
-                    className={classes.inputLable}
-                  >
-                    Search Location
-                  </InputLabel>
-                  <FilledInput
-                    fullWidth
-                    id="component-filled"
-                    value={locationInput}
-                    onChange={handleChange}
-                  />
-                </FormControl>
-              </form>
-            </div>
-            {RESTAURANTS.map((restaurant) => {
-              return (
-                <Paper
-                  className={classes.paper}
-                  elevation="1"
-                  key={restaurant.name}
-                >
-                  <div className={classes.selection}>
+    <div className={classes.window}>
+      <Container>
+        <div className={classes.form} onClick={toggleLocationChoices}>
+          <form noValidate autoComplete="off">
+            <FormControl variant="filled" fullWidth>
+              <InputLabel
+                htmlFor="component-filled"
+                className={classes.inputLable}
+              >
+                Search Location
+              </InputLabel>
+
+              <FilledInput
+                fullWidth
+                id="component-filled"
+                value={locationInput}
+                onChange={handleChange}
+                onClick={toggleLocationChoices}
+              />
+            </FormControl>
+          </form>
+        </div>
+        {RESTAURANTS.map((restaurant) => {
+          return (
+            <Paper
+              className={classes.paper}
+              elevation={1}
+              key={restaurant.name}
+            >
+              <div className={classes.selection}>
+                <div>
+                  <div className={classes.title}>
+                    <RestaurantIcon className={classes.icon} fontSize="large" />
+                    <Typography variant="h6" style={{ marginLeft: "10px" }}>
+                      {restaurant.name}
+                    </Typography>
+                  </div>
+                  <div className={classes.restaurantTypeandLocation}>
                     <div>
-                      <div className={classes.title}>
-                        <RestaurantIcon
-                          className={classes.icon}
-                          fontSize="large"
-                        />
-                        <Typography variant="h6" style={{ marginLeft: "10px" }}>
-                          {restaurant.name}
-                        </Typography>
-                      </div>
-                      <div className={classes.restaurantTypeandLocation}>
-                        <div>
-                          <Typography paragraph="true">
-                            {restaurant.type}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography paragraph="true">
-                            {restaurant.location}
-                          </Typography>
-                        </div>
-                      </div>
+                      <Typography paragraph="true">
+                        {restaurant.type}
+                      </Typography>
                     </div>
                     <div>
-                      <Button
-                        variant="contained"
-                        className={
-                          selectedOption.location === restaurant.name
-                            ? classes.selectedButton
-                            : classes.selectButton
-                        }
-                        onClick={() => selectLocation(restaurant.name)}
-                      >
-                        Select
-                      </Button>
+                      <Typography paragraph="true">
+                        {restaurant.location}
+                      </Typography>
                     </div>
                   </div>
-                </Paper>
-              );
-            })}
-          </Container>
-        </div>
-      )}
-    </Spring>
+                </div>
+                <div>
+                  <Button
+                    variant="contained"
+                    className={
+                      selectedOption.location === restaurant.name
+                        ? classes.selectedButton
+                        : classes.selectButton
+                    }
+                    onClick={() => selectLocation(restaurant.name)}
+                  >
+                    Select
+                  </Button>
+                </div>
+              </div>
+            </Paper>
+          );
+        })}
+      </Container>
+    </div>
   );
 };
 
@@ -132,18 +130,17 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: 5,
   },
-  selection: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   restaurantTypeandLocation: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
   },
-
+  selection: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   selectButton: {
     marginRight: 3,
     borderRadius: "18px",
@@ -157,6 +154,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: "flex",
     justifyContent: "flex-start",
+  },
+  window: {
+    maxHeight: "300px",
+    overflow: "auto",
   },
 }));
 
